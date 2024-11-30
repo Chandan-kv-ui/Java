@@ -1,0 +1,118 @@
+Customer JavaBean class
+import java.util.*;
+
+public class Customer {
+    private String firstName;
+    private String lastName;
+    private int customerId;
+    private double balance;
+
+   
+    public Customer() {
+    }
+
+    
+    public Customer(String firstName, String lastName, int customerId, double balance) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.customerId = customerId;
+        this.balance = balance;
+    }
+
+    
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", customerId=" + customerId +
+                ", balance=" + balance +
+                '}';
+    }
+}
+
+CustomerComparator for Sorting
+
+import java.util.Comparator;
+
+public class CustomerComparator implements Comparator<Customer> {
+    @Override
+    public int compare(Customer c1, Customer c2) {
+        
+        int firstNameCompare = c1.getFirstName().compareTo(c2.getFirstName());
+        if (firstNameCompare != 0) {
+            return firstNameCompare;
+        }
+
+        
+        int lastNameCompare = c1.getLastName().compareTo(c2.getLastName());
+        if (lastNameCompare != 0) {
+            return lastNameCompare;
+        }
+
+        // Compare by Customer ID if Last Names are the same
+        return Integer.compare(c1.getCustomerId(), c2.getCustomerId());
+        
+        // Compare by Balance if Customer ID is the same
+        // return Double.compare(c1.getBalance(), c2.getBalance());
+    }
+}
+
+Main application
+
+import java.util.*;
+
+public class MainApplication {
+    public static void main(String[] args) {
+        
+        List<Customer> customers = new ArrayList<>();
+        
+        
+        customers.add(new Customer("John", "Doe", 101, 5000.75));
+        customers.add(new Customer("Jane", "Smith", 102, 4000.50));
+        customers.add(new Customer("John", "Smith", 103, 2000.00));
+        customers.add(new Customer("Alice", "Brown", 104, 3500.25));
+        customers.add(new Customer("John", "Doe", 105, 5500.00));
+
+        
+        Collections.sort(customers, new CustomerComparator());
+
+        
+        for (Customer customer : customers) {
+            System.out.println(customer);
+        }
+    }
+}
